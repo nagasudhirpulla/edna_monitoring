@@ -3,15 +3,17 @@ using System;
 using EdnaMonitoring.App.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace EdnaMonitoring.Infra.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    partial class AppIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200330101813_activeStatus")]
+    partial class activeStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,9 +121,6 @@ namespace EdnaMonitoring.Infra.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<double?>("RealValue")
-                        .HasColumnType("double precision");
-
                     b.Property<int?>("ReasonabilityDownThresh")
                         .HasColumnType("integer");
 
@@ -165,9 +164,6 @@ namespace EdnaMonitoring.Infra.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
-
-                    b.Property<double?>("RealValue")
-                        .HasColumnType("double precision");
 
                     b.Property<int?>("ReasonabilityDownThresh")
                         .HasColumnType("integer");

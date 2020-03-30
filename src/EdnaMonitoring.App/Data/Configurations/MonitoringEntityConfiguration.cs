@@ -15,8 +15,12 @@ namespace EdnaMonitoring.App.Data.Configurations
         {
             //Base Configuration
             builder
-           .HasIndex(et => et.EdnaId)
+           .HasIndex(me => me.EdnaId)
            .IsUnique();
+
+            builder
+                .Property(me => me.IsActive)
+                .HasDefaultValue(true);
         }
     }
 }

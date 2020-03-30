@@ -13,5 +13,9 @@
 
         public int? ReasonabilityUpThresh { get; set; }
         public int? ReasonabilityDownThresh { get; set; }
+
+        public bool IsActive { get; set; } = true;
+
+        public double? RealValue { get; set; }
     }
 }
