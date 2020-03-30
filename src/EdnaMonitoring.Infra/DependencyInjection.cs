@@ -30,7 +30,7 @@ namespace EdnaMonitoring.Infra
                 services.AddDbContext<AppIdentityDbContext>(options =>
                         options.UseNpgsql(
                           configuration.GetConnectionString("DefaultConnection"),
-                          b => b.MigrationsAssembly("EdnaMonitoring.Web"))
+                          b => b.MigrationsAssembly("EdnaMonitoring.Infra"))
                     );
             }
 
