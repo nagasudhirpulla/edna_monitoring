@@ -8,36 +8,52 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
-using EdnaMonitoring.Web.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using EdnaMonitoring.Infra;
+using EdnaMonitoring.App;
+using MediatR;
+using FluentValidation.AspNetCore;
+using EdnaMonitoring.App.Data;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
+using EdnaMonitoring.App.Security.Commands.SeedUsers;
 
 namespace EdnaMonitoring.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews();
+            services.AddInfrastructure(Configuration, Environment);
+            services.AddApplication();
+            services
+                .AddControllersWithViews()
+                .AddFluentValidation(fv => { fv.RegisterValidatorsFromAssemblyContaining<AppIdentityDbContext>(); })
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                })
+                .AddRazorRuntimeCompilation();
+
+
             services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMediator mediator)
         {
             if (env.IsDevelopment())
             {
@@ -58,6 +74,8 @@ namespace EdnaMonitoring.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
+            SeedData(mediator).Wait();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -65,6 +83,11 @@ namespace EdnaMonitoring.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+        }
+
+        public async Task SeedData(IMediator mediator)
+        {
+            bool usersSeeded = await mediator.Send(new SeedUsersCommand());
         }
     }
 }
