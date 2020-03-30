@@ -1,0 +1,88 @@
+﻿@page
+@model EdnaMonitoring.Web.Pages.Icts.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Ict</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ict.HVoltage)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ict.HVoltage)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ict.LVoltage)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ict.LVoltage)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ict.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ict.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ict.EdnaId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ict.EdnaId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ict.AlertUpThresh)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ict.AlertUpThresh)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ict.AlertDownThresh)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ict.AlertDownThresh)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ict.DangerUpThresh)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ict.DangerUpThresh)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ict.DangerDownThresh)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ict.DangerDownThresh)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ict.ReasonabilityUpThresh)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ict.ReasonabilityUpThresh)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ict.ReasonabilityDownThresh)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ict.ReasonabilityDownThresh)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ict.IsActive)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ict.IsActive)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Ict.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

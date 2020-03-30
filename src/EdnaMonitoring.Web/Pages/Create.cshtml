@@ -1,0 +1,79 @@
+﻿@page
+@model EdnaMonitoring.Web.Pages.Icts.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Ict</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Ict.HVoltage" class="control-label"></label>
+                <input asp-for="Ict.HVoltage" class="form-control" />
+                <span asp-validation-for="Ict.HVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ict.LVoltage" class="control-label"></label>
+                <input asp-for="Ict.LVoltage" class="form-control" />
+                <span asp-validation-for="Ict.LVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ict.Name" class="control-label"></label>
+                <input asp-for="Ict.Name" class="form-control" />
+                <span asp-validation-for="Ict.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ict.EdnaId" class="control-label"></label>
+                <input asp-for="Ict.EdnaId" class="form-control" />
+                <span asp-validation-for="Ict.EdnaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ict.AlertUpThresh" class="control-label"></label>
+                <input asp-for="Ict.AlertUpThresh" class="form-control" />
+                <span asp-validation-for="Ict.AlertUpThresh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ict.AlertDownThresh" class="control-label"></label>
+                <input asp-for="Ict.AlertDownThresh" class="form-control" />
+                <span asp-validation-for="Ict.AlertDownThresh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ict.DangerUpThresh" class="control-label"></label>
+                <input asp-for="Ict.DangerUpThresh" class="form-control" />
+                <span asp-validation-for="Ict.DangerUpThresh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ict.DangerDownThresh" class="control-label"></label>
+                <input asp-for="Ict.DangerDownThresh" class="form-control" />
+                <span asp-validation-for="Ict.DangerDownThresh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ict.ReasonabilityUpThresh" class="control-label"></label>
+                <input asp-for="Ict.ReasonabilityUpThresh" class="form-control" />
+                <span asp-validation-for="Ict.ReasonabilityUpThresh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ict.ReasonabilityDownThresh" class="control-label"></label>
+                <input asp-for="Ict.ReasonabilityDownThresh" class="form-control" />
+                <span asp-validation-for="Ict.ReasonabilityDownThresh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
