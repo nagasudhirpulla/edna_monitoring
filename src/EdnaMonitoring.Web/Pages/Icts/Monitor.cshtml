@@ -1,5 +1,5 @@
 ﻿@page
-@model EdnaMonitoring.Web.Pages.Icts.IndexModel
+@model EdnaMonitoring.Web.Pages.Icts.MonitorModel
 
 @{
     ViewData["Title"] = "Index";
@@ -14,39 +14,32 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].HVoltage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ict[0].LVoltage)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Ict[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].EdnaId)
+                Voltage
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].AlertUpThresh)
+                @Html.DisplayNameFor(model => model.Ict[0].RealValue)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].AlertDownThresh)
+                Alert Up
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].DangerUpThresh)
+                Alert Down
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].DangerDownThresh)
+                Danger Up
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].ReasonabilityUpThresh)
+                Danger Down
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].ReasonabilityDownThresh)
+                Reasonability Up
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].IsActive)
+                Reasonability Down
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -54,16 +47,13 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.HVoltage)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LVoltage)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EdnaId)
+                    @($"{item.HVoltage}/{item.LVoltage}")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RealValue)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.AlertUpThresh)
@@ -83,59 +73,44 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ReasonabilityDownThresh)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsActive)
-                </td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
             </tr>
         }
     </tbody>
     <tfoot>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].HVoltage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ict[0].LVoltage)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Ict[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].EdnaId)
+                Voltage
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].AlertUpThresh)
+                @Html.DisplayNameFor(model => model.Ict[0].RealValue)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].AlertDownThresh)
+                Alert Up
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].DangerUpThresh)
+                Alert Down
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].DangerDownThresh)
+                Danger Up
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].ReasonabilityUpThresh)
+                Danger Down
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].ReasonabilityDownThresh)
+                Reasonability Up
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].IsActive)
+                Reasonability Down
             </th>
-            <th></th>
         </tr>
     </tfoot>
 </table>
 
 @section Scripts{
-    <link rel="stylesheet" type="text/css" href="~/lib/node_modules/datatables/media/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="~/lib/node_modules/datatables/media/css/jquery.dataTables.min.css" />
     <script type="text/javascript" src="~/lib/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="~/lib/node_modules/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript" src="~/lib/node_modules/datatables.net-buttons/js/buttons.html5.min.js"></script>

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -18,6 +18,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EdnaMonitoring.Domain\EdnaMonitoring.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="EzDNAApiNet64">
+      <HintPath>..\packages\Edna\EzDNAApiNet64.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
