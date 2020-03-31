@@ -1,0 +1,74 @@
+﻿@page
+@model EdnaMonitoring.Web.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>TransLine</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TransLine.Voltage" class="control-label"></label>
+                <input asp-for="TransLine.Voltage" class="form-control" />
+                <span asp-validation-for="TransLine.Voltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransLine.Name" class="control-label"></label>
+                <input asp-for="TransLine.Name" class="form-control" />
+                <span asp-validation-for="TransLine.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransLine.EdnaId" class="control-label"></label>
+                <input asp-for="TransLine.EdnaId" class="form-control" />
+                <span asp-validation-for="TransLine.EdnaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransLine.AlertUpThresh" class="control-label"></label>
+                <input asp-for="TransLine.AlertUpThresh" class="form-control" />
+                <span asp-validation-for="TransLine.AlertUpThresh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransLine.AlertDownThresh" class="control-label"></label>
+                <input asp-for="TransLine.AlertDownThresh" class="form-control" />
+                <span asp-validation-for="TransLine.AlertDownThresh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransLine.DangerUpThresh" class="control-label"></label>
+                <input asp-for="TransLine.DangerUpThresh" class="form-control" />
+                <span asp-validation-for="TransLine.DangerUpThresh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransLine.DangerDownThresh" class="control-label"></label>
+                <input asp-for="TransLine.DangerDownThresh" class="form-control" />
+                <span asp-validation-for="TransLine.DangerDownThresh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransLine.ReasonabilityUpThresh" class="control-label"></label>
+                <input asp-for="TransLine.ReasonabilityUpThresh" class="form-control" />
+                <span asp-validation-for="TransLine.ReasonabilityUpThresh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransLine.ReasonabilityDownThresh" class="control-label"></label>
+                <input asp-for="TransLine.ReasonabilityDownThresh" class="form-control" />
+                <span asp-validation-for="TransLine.ReasonabilityDownThresh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

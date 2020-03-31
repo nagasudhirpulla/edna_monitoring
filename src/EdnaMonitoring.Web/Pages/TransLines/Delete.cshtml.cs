@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EdnaMonitoring.App.Data;
 using EdnaMonitoring.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
+using EdnaMonitoring.App.Security;
 
-namespace EdnaMonitoring.Web.Pages.Icts
+namespace EdnaMonitoring.Web
 {
+    [Authorize(Roles = SecurityConstants.AdminRoleString)]
     public class DeleteModel : PageModel
     {
         private readonly EdnaMonitoring.App.Data.AppIdentityDbContext _context;
@@ -20,7 +23,7 @@ namespace EdnaMonitoring.Web.Pages.Icts
         }
 
         [BindProperty]
-        public Ict Ict { get; set; }
+        public TransLine TransLine { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,9 +32,9 @@ namespace EdnaMonitoring.Web.Pages.Icts
                 return NotFound();
             }
 
-            Ict = await _context.Icts.FirstOrDefaultAsync(m => m.Id == id);
+            TransLine = await _context.TransLines.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Ict == null)
+            if (TransLine == null)
             {
                 return NotFound();
             }
@@ -45,11 +48,11 @@ namespace EdnaMonitoring.Web.Pages.Icts
                 return NotFound();
             }
 
-            Ict = await _context.Icts.FindAsync(id);
+            TransLine = await _context.TransLines.FindAsync(id);
 
-            if (Ict != null)
+            if (TransLine != null)
             {
-                _context.Icts.Remove(Ict);
+                _context.TransLines.Remove(TransLine);
                 await _context.SaveChangesAsync();
             }
 

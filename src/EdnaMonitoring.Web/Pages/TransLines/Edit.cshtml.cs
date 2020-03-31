@@ -8,9 +8,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EdnaMonitoring.App.Data;
 using EdnaMonitoring.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
+using EdnaMonitoring.App.Security;
 
-namespace EdnaMonitoring.Web.Pages.Icts
+namespace EdnaMonitoring.Web
 {
+    [Authorize(Roles = SecurityConstants.AdminRoleString)]
     public class EditModel : PageModel
     {
         private readonly EdnaMonitoring.App.Data.AppIdentityDbContext _context;
@@ -21,7 +24,7 @@ namespace EdnaMonitoring.Web.Pages.Icts
         }
 
         [BindProperty]
-        public Ict Ict { get; set; }
+        public TransLine TransLine { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,9 +33,9 @@ namespace EdnaMonitoring.Web.Pages.Icts
                 return NotFound();
             }
 
-            Ict = await _context.Icts.FirstOrDefaultAsync(m => m.Id == id);
+            TransLine = await _context.TransLines.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Ict == null)
+            if (TransLine == null)
             {
                 return NotFound();
             }
@@ -48,7 +51,7 @@ namespace EdnaMonitoring.Web.Pages.Icts
                 return Page();
             }
 
-            _context.Attach(Ict).State = EntityState.Modified;
+            _context.Attach(TransLine).State = EntityState.Modified;
 
             try
             {
@@ -56,7 +59,7 @@ namespace EdnaMonitoring.Web.Pages.Icts
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!IctExists(Ict.Id))
+                if (!TransLineExists(TransLine.Id))
                 {
                     return NotFound();
                 }
@@ -69,9 +72,9 @@ namespace EdnaMonitoring.Web.Pages.Icts
             return RedirectToPage("./Index");
         }
 
-        private bool IctExists(int id)
+        private bool TransLineExists(int id)
         {
-            return _context.Icts.Any(e => e.Id == id);
+            return _context.TransLines.Any(e => e.Id == id);
         }
     }
 }

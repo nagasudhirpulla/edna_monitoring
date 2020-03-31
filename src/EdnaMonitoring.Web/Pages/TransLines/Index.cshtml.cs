@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EdnaMonitoring.App.Data;
 using EdnaMonitoring.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 
-namespace EdnaMonitoring.Web.Pages.Icts
+namespace EdnaMonitoring.Web
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly EdnaMonitoring.App.Data.AppIdentityDbContext _context;
@@ -19,11 +21,11 @@ namespace EdnaMonitoring.Web.Pages.Icts
             _context = context;
         }
 
-        public IList<Ict> Ict { get;set; }
+        public IList<TransLine> TransLine { get;set; }
 
         public async Task OnGetAsync()
         {
-            Ict = await _context.Icts.ToListAsync();
+            TransLine = await _context.TransLines.ToListAsync();
         }
     }
 }

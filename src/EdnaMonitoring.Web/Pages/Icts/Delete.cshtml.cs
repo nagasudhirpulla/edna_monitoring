@@ -7,18 +7,22 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EdnaMonitoring.App.Data;
 using EdnaMonitoring.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
+using EdnaMonitoring.App.Security;
 
 namespace EdnaMonitoring.Web.Pages.Icts
 {
-    public class DetailsModel : PageModel
+    [Authorize(Roles = SecurityConstants.AdminRoleString)]
+    public class DeleteModel : PageModel
     {
         private readonly EdnaMonitoring.App.Data.AppIdentityDbContext _context;
 
-        public DetailsModel(EdnaMonitoring.App.Data.AppIdentityDbContext context)
+        public DeleteModel(EdnaMonitoring.App.Data.AppIdentityDbContext context)
         {
             _context = context;
         }
 
+        [BindProperty]
         public Ict Ict { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -35,6 +39,24 @@ namespace EdnaMonitoring.Web.Pages.Icts
                 return NotFound();
             }
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Ict = await _context.Icts.FindAsync(id);
+
+            if (Ict != null)
+            {
+                _context.Icts.Remove(Ict);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("./Index");
         }
     }
 }

@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using EdnaMonitoring.App.Data;
 using EdnaMonitoring.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
+using EdnaMonitoring.App.Security;
 
 namespace EdnaMonitoring.Web.Pages.Icts
 {
+    [Authorize(Roles = SecurityConstants.AdminRoleString)]
     public class CreateModel : PageModel
     {
         private readonly EdnaMonitoring.App.Data.AppIdentityDbContext _context;

@@ -1,0 +1,173 @@
+﻿@page
+@model EdnaMonitoring.Web.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table table-bordered table-hover display" id="meas_table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].Voltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].EdnaId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].AlertUpThresh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].AlertDownThresh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].DangerUpThresh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].DangerDownThresh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].ReasonabilityUpThresh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].ReasonabilityDownThresh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TransLine)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Voltage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EdnaId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AlertUpThresh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AlertDownThresh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DangerUpThresh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DangerDownThresh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReasonabilityUpThresh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReasonabilityDownThresh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].Voltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].EdnaId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].AlertUpThresh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].AlertDownThresh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].DangerUpThresh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].DangerDownThresh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].ReasonabilityUpThresh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].ReasonabilityDownThresh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
+
+@section Scripts{
+    <link rel="stylesheet" type="text/css" href="~/lib/node_modules/datatables/media/css/jquery.dataTables.min.css" />
+    <script type="text/javascript" src="~/lib/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/lib/node_modules/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="~/lib/node_modules/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="~/lib/node_modules/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // https://datatables.net/examples/api/multi_filter.html
+            // Setup - add a text input to each footer cell
+            $('#meas_table tfoot th').each(function () {
+                //var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search" />');
+            });
+            var meas_table = $('#meas_table').DataTable({
+                fixedHeader: true,
+                "lengthMenu": [[10, 20, 50, 100, -1], [10, 20, 50, 100, "All"]],
+                "pageLength": 50,
+                dom: 'Bfrtip',
+                "order": [[0, "asc"]],
+                buttons: ['pageLength', 'copy', 'csv', 'excel', 'print']
+            });
+            var r = $('#meas_table tfoot tr');
+            r.find('th').each(function () {
+                $(this).css('padding', '3px');
+            });
+            $('#meas_table thead').append(r);
+            // Apply the filter
+            // https://www.jqueryscript.net/demo/DataTables-Jquery-Table-Plugin/examples/api/multi_filter.html
+            $("#meas_table thead input").on('keyup change', function () {
+                meas_table
+                    .column($(this).parent().index() + ':visible')
+                    .search(this.value)
+                    .draw();
+            });
+        });
+    </script>
+    <style>
+        thead input {
+            padding: 2px;
+            box-sizing: border-box;
+            font-size: small;
+            width: 100%
+        }
+    </style>
+}
