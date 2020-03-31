@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EdnaMonitoring.App.Icts.Queries.GetAllActiveIcts;
 using EdnaMonitoring.Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EdnaMonitoring.Web.Pages.Icts
