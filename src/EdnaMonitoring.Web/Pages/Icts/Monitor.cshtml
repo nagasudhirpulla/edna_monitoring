@@ -1,26 +1,119 @@
 ﻿@page
 @model EdnaMonitoring.Web.Pages.Icts.MonitorModel
+@using EdnaMonitoring.Domain.Entities
 
 @{
     ViewData["Title"] = "Index";
+    bool IsValReasonable(Ict ict)
+    {
+        double? val = ict.RealValue; int hvLevel = ict.HVoltage; int lvLevel = ict.LVoltage;
+        double? upLimit = ict.ReasonabilityUpThresh; double? lowLimit = ict.ReasonabilityDownThresh;
+        if (!val.HasValue) { return false; }
+        double up = 0;
+        if (upLimit.HasValue) { up = upLimit.Value; }
+        else
+        {
+            if (hvLevel == 765 && lvLevel == 400) { up = 1000; }
+            else if (hvLevel == 400 && lvLevel == 220) { up = 500; }
+            else if (hvLevel == 220 && lvLevel == 132) { up = 300; }
+        }
+        double down = 0;
+        if (lowLimit.HasValue) { down = lowLimit.Value; }
+        else
+        {
+            if (hvLevel == 765 && lvLevel == 400) { down = -1000; }
+            else if (hvLevel == 400 && lvLevel == 220) { down = -500; }
+            else if (hvLevel == 220 && lvLevel == 132) { down = -300; }
+        }
+        if (val <= down || val >= up) { return false; }
+        return true;
+    }
+
+    double? GetAlertViolation(Ict ict)
+    {
+        double? val = ict.RealValue; int hvLevel = ict.HVoltage; int lvLevel = ict.LVoltage;
+        double? upLimit = ict.AlertUpThresh; double? lowLimit = ict.AlertDownThresh;
+        if (!val.HasValue) { return 10000; }
+        double up = 0;
+        if (upLimit.HasValue) { up = upLimit.Value; }
+        else
+        {
+            if (hvLevel == 765 && lvLevel == 400) { up = 1000; }
+            else if (hvLevel == 400 && lvLevel == 220) { up = 500; }
+            else if (hvLevel == 220 && lvLevel == 132) { up = 300; }
+        }
+        double down = 0;
+        if (lowLimit.HasValue) { down = lowLimit.Value; }
+        else
+        {
+            if (hvLevel == 765 && lvLevel == 400) { down = -1000; }
+            else if (hvLevel == 400 && lvLevel == 220) { down = -500; }
+            else if (hvLevel == 220 && lvLevel == 132) { down = -300; }
+        }
+        if (val <= down) { return down - val; }
+        if (val >= up) { return up - val; }
+        return null;
+    }
+
+    double? GetDangerViolation(Ict ict)
+    {
+        double? val = ict.RealValue; int hvLevel = ict.HVoltage; int lvLevel = ict.LVoltage;
+        double? upLimit = ict.DangerUpThresh; double? lowLimit = ict.DangerDownThresh;
+        if (!val.HasValue) { return 10000; }
+        double up = 0;
+        if (upLimit.HasValue) { up = upLimit.Value; }
+        else
+        {
+            if (hvLevel == 765 && lvLevel == 400) { up = 1000; }
+            else if (hvLevel == 400 && lvLevel == 220) { up = 500; }
+            else if (hvLevel == 220 && lvLevel == 132) { up = 300; }
+        }
+        double down = 0;
+        if (lowLimit.HasValue) { down = lowLimit.Value; }
+        else
+        {
+            if (hvLevel == 765 && lvLevel == 400) { down = -1000; }
+            else if (hvLevel == 400 && lvLevel == 220) { down = -500; }
+            else if (hvLevel == 220 && lvLevel == 132) { down = -300; }
+        }
+        if (val <= down) { return down - val; }
+        if (val >= up) { return up - val; }
+        return null;
+    }
 }
 
 <h1>Index</h1>
 
 <p>
+    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show400ChkBx"> 400/220 kV</label>
+    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show765ChkBx"> 765/400 kV</label>
+    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show220ChkBx"> 200/132 kV</label>
+    <label><input type="checkbox" onchange="onAlertToggle()" id="showAlertChkBx"> Alert</label>
+    <label><input type="checkbox" onchange="onDangerToggle()" id="showDangerChkBx"> Danger</label>
+    <label><input type="checkbox" onchange="onValidToggle()" id="showValidChkBx"> Valid</label>
+    <br />
     <a asp-page="Create">Create New</a>
 </p>
-<table class="table table-bordered table-hover display" id="meas_table">
+<table class="display table table-bordered table-hover table-responsive-md" id="meas_table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Ict[0].Name)
             </th>
-            <th>
+            <th class="voltCol">
                 Voltage
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Ict[0].RealValue)
+            </th>
+            <th class="reasCol">
+                Reasonable?
+            </th>
+            <th class="alertCol">
+                Alert Violation
+            </th>
+            <th class="dangerCol">
+                Danger Violation
             </th>
             <th>
                 Alert Up
@@ -56,6 +149,15 @@
                     @Html.DisplayFor(modelItem => item.RealValue)
                 </td>
                 <td>
+                    @(IsValReasonable(item) ? "Yes" : "No")
+                </td>
+                <td>
+                    @GetAlertViolation(item)
+                </td>
+                <td>
+                    @GetDangerViolation(item)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.AlertUpThresh)
                 </td>
                 <td>
@@ -81,11 +183,20 @@
             <th>
                 @Html.DisplayNameFor(model => model.Ict[0].Name)
             </th>
-            <th>
+            <th class="voltCol">
                 Voltage
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Ict[0].RealValue)
+            </th>
+            <th class="reasCol">
+                Reasonable?
+            </th>
+            <th class="alertCol">
+                Alert Violation
+            </th>
+            <th class="dangerCol">
+                Danger Violation
             </th>
             <th>
                 Alert Up
@@ -116,6 +227,54 @@
     <script type="text/javascript" src="~/lib/node_modules/datatables.net-buttons/js/buttons.html5.min.js"></script>
     <script type="text/javascript" src="~/lib/node_modules/datatables.net-buttons/js/buttons.print.min.js"></script>
     <script>
+        var meas_table;
+        function onDisplayVoltLevelsChanges() {
+            //get checkbox values
+            var show400 = document.getElementById("show400ChkBx").checked;
+            var show765 = document.getElementById("show765ChkBx").checked;
+            var show220 = document.getElementById("show220ChkBx").checked;
+            // create search string
+            var searchStrs = []
+            if (show220) { searchStrs.push('220/132') }
+            if (show400) { searchStrs.push('400/220') }
+            if (show765) { searchStrs.push('765/400') }
+            var searchStr = searchStrs.length > 0 ? searchStrs.join('|') : ''
+            // search the table
+            meas_table
+                .columns('.voltCol')
+                .search(searchStr, true)
+                .draw();
+        }
+        function onValidToggle() {
+            //get checkbox values
+            let showValid = document.getElementById("showValidChkBx").checked;
+            var searchStr = showValid ? 'Yes' : '';
+            // search the table
+            meas_table
+                .columns('.reasCol')
+                .search(searchStr, true)
+                .draw();
+        }
+        function onAlertToggle() {
+            //get checkbox values
+            let showAlert = document.getElementById("showAlertChkBx").checked;
+            var searchStr = showAlert ? '^[0-9]+' : '';
+            // search the table
+            meas_table
+                .columns('.alertCol')
+                .search(searchStr, true)
+                .draw();
+        }
+        function onDangerToggle() {
+            //get checkbox values
+            let showDanger = document.getElementById("showDangerChkBx").checked;
+            var searchStr = showDanger ? '^[0-9]+' : '';
+            // search the table
+            meas_table
+                .columns('.alertCol')
+                .search(searchStr, true)
+                .draw();
+        }
         $(document).ready(function () {
             // https://datatables.net/examples/api/multi_filter.html
             // Setup - add a text input to each footer cell
@@ -123,7 +282,7 @@
                 //var title = $(this).text();
                 $(this).html('<input type="text" placeholder="Search" />');
             });
-            var meas_table = $('#meas_table').DataTable({
+            meas_table = $('#meas_table').DataTable({
                 fixedHeader: true,
                 "lengthMenu": [[10, 20, 50, 100, -1], [10, 20, 50, 100, "All"]],
                 "pageLength": 50,

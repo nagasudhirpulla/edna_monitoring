@@ -68,6 +68,11 @@
                     <input class="form-check-input" asp-for="Ict.IsActive" /> @Html.DisplayNameFor(model => model.Ict.IsActive)
                 </label>
             </div>
+            <div class="form-group">
+                <label asp-for="Ict.RealValue" class="control-label"></label>
+                <input asp-for="Ict.RealValue" class="form-control" />
+                <span asp-validation-for="Ict.RealValue" class="text-danger"></span>
+            </div>
             <input type="hidden" asp-for="Ict.Id" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
