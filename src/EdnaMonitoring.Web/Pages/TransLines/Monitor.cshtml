@@ -1,0 +1,316 @@
+﻿@page
+@model EdnaMonitoring.Web.Pages.TransLines.MonitorModel
+@using EdnaMonitoring.Domain.Entities
+
+@{
+    ViewData["Title"] = "Index";
+    bool IsValReasonable(TransLine transLine)
+    {
+        double? val = transLine.RealValue; int voltLevel = transLine.Voltage;
+        double? upLimit = transLine.ReasonabilityUpThresh; double? lowLimit = transLine.ReasonabilityDownThresh;
+        if (!val.HasValue) { return false; }
+        double up = 0;
+        if (upLimit.HasValue) { up = upLimit.Value; }
+        else
+        {
+            if (voltLevel == 765) { up = 1000; }
+            else if (voltLevel == 400) { up = 500; }
+            else if (voltLevel == 220) { up = 300; }
+        }
+        double down = 0;
+        if (lowLimit.HasValue) { down = lowLimit.Value; }
+        else
+        {
+            if (voltLevel == 765) { down = -1000; }
+            else if (voltLevel == 400) { down = -500; }
+            else if (voltLevel == 220) { down = -300; }
+        }
+        if (val <= down || val >= up) { return false; }
+        return true;
+    }
+
+    double? GetAlertViolation(TransLine transLine)
+    {
+        double? val = transLine.RealValue; int voltLevel = transLine.Voltage;
+        double? upLimit = transLine.AlertUpThresh; double? lowLimit = transLine.AlertDownThresh;
+        if (!val.HasValue) { return 10000; }
+        double up = 0;
+        if (upLimit.HasValue) { up = upLimit.Value; }
+        else
+        {
+            if (voltLevel == 765) { up = 1000; }
+            else if (voltLevel == 400) { up = 500; }
+            else if (voltLevel == 220) { up = 300; }
+        }
+        double down = 0;
+        if (lowLimit.HasValue) { down = lowLimit.Value; }
+        else
+        {
+            if (voltLevel == 765) { down = -1000; }
+            else if (voltLevel == 400) { down = -500; }
+            else if (voltLevel == 220) { down = -300; }
+        }
+        if (val <= down) { return down - val; }
+        if (val >= up) { return up - val; }
+        return null;
+    }
+
+    double? GetDangerViolation(TransLine transLine)
+    {
+        double? val = transLine.RealValue; int voltLevel = transLine.Voltage;
+        double? upLimit = transLine.DangerUpThresh; double? lowLimit = transLine.DangerDownThresh;
+        if (!val.HasValue) { return 10000; }
+        double up = 0;
+        if (upLimit.HasValue) { up = upLimit.Value; }
+        else
+        {
+            if (voltLevel == 765) { up = 1000; }
+            else if (voltLevel == 400) { up = 500; }
+            else if (voltLevel == 220) { up = 300; }
+        }
+        double down = 0;
+        if (lowLimit.HasValue) { down = lowLimit.Value; }
+        else
+        {
+            if (voltLevel == 765) { down = -1000; }
+            else if (voltLevel == 400) { down = -500; }
+            else if (voltLevel == 220) { down = -300; }
+        }
+        if (val <= down) { return down - val; }
+        if (val >= up) { return up - val; }
+        return null;
+    }
+}
+
+<h1>Index</h1>
+
+<p>
+    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show400ChkBx"> 400/220 kV</label>
+    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show765ChkBx"> 765/400 kV</label>
+    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show220ChkBx"> 200/132 kV</label>
+    <label><input type="checkbox" onchange="onAlertToggle()" id="showAlertChkBx"> Alert</label>
+    <label><input type="checkbox" onchange="onDangerToggle()" id="showDangerChkBx"> Danger</label>
+    <label><input type="checkbox" onchange="onValidToggle()" id="showValidChkBx"> Valid</label>
+    <br />
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="display table table-bordered table-hover table-responsive-md" id="meas_table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].Name)
+            </th>
+            <th class="voltCol">
+                Voltage
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].RealValue)
+            </th>
+            <th class="reasCol">
+                Reasonable?
+            </th>
+            <th class="alertCol">
+                Alert Violation
+            </th>
+            <th class="dangerCol">
+                Danger Violation
+            </th>
+            <th>
+                Alert Up
+            </th>
+            <th>
+                Alert Down
+            </th>
+            <th>
+                Danger Up
+            </th>
+            <th>
+                Danger Down
+            </th>
+            <th>
+                Reasonability Up
+            </th>
+            <th>
+                Reasonability Down
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TransLine)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @($"{item.HVoltage}/{item.LVoltage}")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RealValue)
+                </td>
+                <td>
+                    @(IsValReasonable(item) ? "Yes" : "No")
+                </td>
+                <td>
+                    @GetAlertViolation(item)
+                </td>
+                <td>
+                    @GetDangerViolation(item)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AlertUpThresh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AlertDownThresh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DangerUpThresh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DangerDownThresh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReasonabilityUpThresh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReasonabilityDownThresh)
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].Name)
+            </th>
+            <th class="voltCol">
+                Voltage
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].RealValue)
+            </th>
+            <th class="reasCol">
+                Reasonable?
+            </th>
+            <th class="alertCol">
+                Alert Violation
+            </th>
+            <th class="dangerCol">
+                Danger Violation
+            </th>
+            <th>
+                Alert Up
+            </th>
+            <th>
+                Alert Down
+            </th>
+            <th>
+                Danger Up
+            </th>
+            <th>
+                Danger Down
+            </th>
+            <th>
+                Reasonability Up
+            </th>
+            <th>
+                Reasonability Down
+            </th>
+        </tr>
+    </tfoot>
+</table>
+
+@section Scripts{
+    <link rel="stylesheet" type="text/css" href="~/lib/node_modules/datatables/media/css/jquery.dataTables.min.css" />
+    <script type="text/javascript" src="~/lib/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/lib/node_modules/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="~/lib/node_modules/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="~/lib/node_modules/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script>
+        var meas_table;
+        function onDisplayVoltLevelsChanges() {
+            //get checkbox values
+            var show400 = document.getElementById("show400ChkBx").checked;
+            var show765 = document.getElementById("show765ChkBx").checked;
+            var show220 = document.getElementById("show220ChkBx").checked;
+            // create search string
+            var searchStrs = []
+            if (show220) { searchStrs.push('220') }
+            if (show400) { searchStrs.push('400') }
+            if (show765) { searchStrs.push('765') }
+            var searchStr = searchStrs.length > 0 ? searchStrs.join('|') : ''
+            // search the table
+            meas_table
+                .columns('.voltCol')
+                .search(searchStr, true)
+                .draw();
+        }
+        function onValidToggle() {
+            //get checkbox values
+            let showValid = document.getElementById("showValidChkBx").checked;
+            var searchStr = showValid ? 'Yes' : '';
+            // search the table
+            meas_table
+                .columns('.reasCol')
+                .search(searchStr, true)
+                .draw();
+        }
+        function onAlertToggle() {
+            //get checkbox values
+            let showAlert = document.getElementById("showAlertChkBx").checked;
+            var searchStr = showAlert ? '^[0-9]+' : '';
+            // search the table
+            meas_table
+                .columns('.alertCol')
+                .search(searchStr, true)
+                .draw();
+        }
+        function onDangerToggle() {
+            //get checkbox values
+            let showDanger = document.getElementById("showDangerChkBx").checked;
+            var searchStr = showDanger ? '^[0-9]+' : '';
+            // search the table
+            meas_table
+                .columns('.alertCol')
+                .search(searchStr, true)
+                .draw();
+        }
+        $(document).ready(function () {
+            // https://datatables.net/examples/api/multi_filter.html
+            // Setup - add a text input to each footer cell
+            $('#meas_table tfoot th').each(function () {
+                //var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search" />');
+            });
+            meas_table = $('#meas_table').DataTable({
+                fixedHeader: true,
+                "lengthMenu": [[10, 20, 50, 100, -1], [10, 20, 50, 100, "All"]],
+                "pageLength": 50,
+                dom: 'Bfrtip',
+                "order": [[0, "asc"]],
+                buttons: ['pageLength', 'copy', 'csv', 'excel', 'print']
+            });
+            var r = $('#meas_table tfoot tr');
+            r.find('th').each(function () {
+                $(this).css('padding', '3px');
+            });
+            $('#meas_table thead').append(r);
+            // Apply the filter
+            // https://www.jqueryscript.net/demo/DataTables-Jquery-Table-Plugin/examples/api/multi_filter.html
+            $("#meas_table thead input").on('keyup change', function () {
+                meas_table
+                    .column($(this).parent().index() + ':visible')
+                    .search(this.value)
+                    .draw();
+            });
+        });
+    </script>
+    <style>
+        thead input {
+            padding: 2px;
+            box-sizing: border-box;
+            font-size: small;
+            width: 100%
+        }
+    </style>
+}
