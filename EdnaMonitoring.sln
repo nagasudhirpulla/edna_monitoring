@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EdnaMonitoring.Infra", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EdnaMonitoring.App", "src\EdnaMonitoring.App\EdnaMonitoring.App.csproj", "{0D92B742-7014-421E-9F11-F4DDDBD40437}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EdnaMonitoring.Web", "src\EdnaMonitoring.Web\EdnaMonitoring.Web.csproj", "{4143E1E2-38B2-4C3A-9A5D-BD2F427C0BA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EdnaMonitoring.Web", "src\EdnaMonitoring.Web\EdnaMonitoring.Web.csproj", "{4143E1E2-38B2-4C3A-9A5D-BD2F427C0BA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EdnaUtils", "src\EdnaUtils\EdnaUtils.csproj", "{3A837C13-B334-4A57-9CCC-C24D8D9B293A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{4143E1E2-38B2-4C3A-9A5D-BD2F427C0BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4143E1E2-38B2-4C3A-9A5D-BD2F427C0BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4143E1E2-38B2-4C3A-9A5D-BD2F427C0BA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A837C13-B334-4A57-9CCC-C24D8D9B293A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A837C13-B334-4A57-9CCC-C24D8D9B293A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A837C13-B334-4A57-9CCC-C24D8D9B293A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A837C13-B334-4A57-9CCC-C24D8D9B293A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

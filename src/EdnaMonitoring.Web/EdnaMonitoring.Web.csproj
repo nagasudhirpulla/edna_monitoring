@@ -5,6 +5,10 @@
     <UserSecretsId>aspnet-EdnaMonitoring.Web-AD4A3B34-CAF2-41C3-8877-ED74C8793071</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="wwwroot\lib\node_modules\datatables.net\**" />
     <Content Remove="wwwroot\lib\node_modules\datatables.net\**" />

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EdnaMonitoring.App.EdnaUtils
+namespace EdnaUtils
 {
     public class RTValue
     {

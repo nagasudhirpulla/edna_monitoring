@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using InStep.eDNA.EzDNAApiNet;
 
-namespace EdnaMonitoring.App.EdnaUtils
+namespace EdnaUtils
 {
     public class EdnaFetcher
     {

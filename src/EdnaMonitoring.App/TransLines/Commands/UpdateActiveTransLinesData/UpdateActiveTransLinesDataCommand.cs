@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using EdnaMonitoring.App.EdnaUtils;
+using EdnaUtils;
 
 namespace EdnaMonitoring.App.TransLines.Commands.UpdateActiveTransLinesData
 {

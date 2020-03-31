@@ -18,12 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EdnaMonitoring.Domain\EdnaMonitoring.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="EzDNAApiNet64">
-      <HintPath>..\packages\Edna\EzDNAApiNet64.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\EdnaUtils\EdnaUtils.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
 ﻿using EdnaMonitoring.App.Data;
-using EdnaMonitoring.App.EdnaUtils;
+using EdnaUtils;
 using EdnaMonitoring.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
