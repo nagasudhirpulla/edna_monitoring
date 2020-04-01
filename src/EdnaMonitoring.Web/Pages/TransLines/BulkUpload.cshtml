@@ -13,7 +13,8 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <textarea asp-for="UploadString" class="form-control"></textarea>
+                <label class="control-label">Enter upload string below</label>
+                <textarea asp-for="UploadString" class="form-control" placeholder="Enter upload string"></textarea>
                 <span asp-validation-for="UploadString" class="text-danger"></span>
             </div>
             <div class="form-group">
