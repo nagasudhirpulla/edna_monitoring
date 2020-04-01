@@ -13,17 +13,17 @@
         if (upLimit.HasValue) { up = upLimit.Value; }
         else
         {
-            if (voltLevel == 765) { up = 1000; }
-            else if (voltLevel == 400) { up = 500; }
-            else if (voltLevel == 220) { up = 300; }
+            if (voltLevel == 765) { up = 99999; }
+            else if (voltLevel == 400) { up = 99999; }
+            else if (voltLevel == 220) { up = 99999; }
         }
         double down = 0;
         if (lowLimit.HasValue) { down = lowLimit.Value; }
         else
         {
-            if (voltLevel == 765) { down = -1000; }
-            else if (voltLevel == 400) { down = -500; }
-            else if (voltLevel == 220) { down = -300; }
+            if (voltLevel == 765) { down = -99999; }
+            else if (voltLevel == 400) { down = -99999; }
+            else if (voltLevel == 220) { down = -99999; }
         }
         if (val <= down || val >= up) { return false; }
         return true;
@@ -38,17 +38,17 @@
         if (upLimit.HasValue) { up = upLimit.Value; }
         else
         {
-            if (voltLevel == 765) { up = 1000; }
+            if (voltLevel == 765) { up = 2000; }
             else if (voltLevel == 400) { up = 500; }
-            else if (voltLevel == 220) { up = 300; }
+            else if (voltLevel == 220) { up = 200; }
         }
         double down = 0;
         if (lowLimit.HasValue) { down = lowLimit.Value; }
         else
         {
-            if (voltLevel == 765) { down = -1000; }
+            if (voltLevel == 765) { down = -2000; }
             else if (voltLevel == 400) { down = -500; }
-            else if (voltLevel == 220) { down = -300; }
+            else if (voltLevel == 220) { down = -200; }
         }
         if (val <= down) { return down - val; }
         if (val >= up) { return up - val; }
@@ -64,17 +64,17 @@
         if (upLimit.HasValue) { up = upLimit.Value; }
         else
         {
-            if (voltLevel == 765) { up = 1000; }
+            if (voltLevel == 765) { up = 2000; }
             else if (voltLevel == 400) { up = 500; }
-            else if (voltLevel == 220) { up = 300; }
+            else if (voltLevel == 220) { up = 200; }
         }
         double down = 0;
         if (lowLimit.HasValue) { down = lowLimit.Value; }
         else
         {
-            if (voltLevel == 765) { down = -1000; }
+            if (voltLevel == 765) { down = -2000; }
             else if (voltLevel == 400) { down = -500; }
-            else if (voltLevel == 220) { down = -300; }
+            else if (voltLevel == 220) { down = -200; }
         }
         if (val <= down) { return down - val; }
         if (val >= up) { return up - val; }
@@ -85,9 +85,9 @@
 <h1>Index</h1>
 
 <p>
-    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show400ChkBx"> 400/220 kV</label>
-    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show765ChkBx"> 765/400 kV</label>
-    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show220ChkBx"> 200/132 kV</label>
+    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show400ChkBx"> 400 kV</label>
+    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show765ChkBx"> 765 kV</label>
+    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show220ChkBx"> 220 kV</label>
     <label><input type="checkbox" onchange="onAlertToggle()" id="showAlertChkBx"> Alert</label>
     <label><input type="checkbox" onchange="onDangerToggle()" id="showDangerChkBx"> Danger</label>
     <label><input type="checkbox" onchange="onValidToggle()" id="showValidChkBx"> Valid</label>
@@ -104,7 +104,10 @@
                 Voltage
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TransLine[0].RealValue)
+                Flow
+            </th>
+            <th>
+                Absolute Flow
             </th>
             <th class="reasCol">
                 Reasonable?
@@ -138,44 +141,47 @@
     <tbody>
         @foreach (var item in Model.TransLine)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @($"{item.Voltage}")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RealValue)
-                </td>
-                <td>
-                    @(IsValReasonable(item) ? "Yes" : "No")
-                </td>
-                <td>
-                    @GetAlertViolation(item)
-                </td>
-                <td>
-                    @GetDangerViolation(item)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AlertUpThresh)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AlertDownThresh)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DangerUpThresh)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DangerDownThresh)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReasonabilityUpThresh)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReasonabilityDownThresh)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @($"{item.Voltage}")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RealValue)
+            </td>
+            <td>
+                @(item.RealValue.HasValue?$"{Math.Abs(item.RealValue.Value)}":"")
+            </td>
+            <td>
+                @(IsValReasonable(item) ? "Yes" : "No")
+            </td>
+            <td>
+                @GetAlertViolation(item)
+            </td>
+            <td>
+                @GetDangerViolation(item)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AlertUpThresh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AlertDownThresh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DangerUpThresh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DangerDownThresh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReasonabilityUpThresh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReasonabilityDownThresh)
+            </td>
+        </tr>
         }
     </tbody>
     <tfoot>
@@ -187,7 +193,10 @@
                 Voltage
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TransLine[0].RealValue)
+                Flow
+            </th>
+            <th>
+                Absolute Flow
             </th>
             <th class="reasCol">
                 Reasonable?

@@ -35,10 +35,10 @@ namespace EdnaMonitoring.App.TransLines.Commands.UpdateActiveTransLinesData
                     {
                         tLine.RealValue = pntData.Dval;
                         _context.Attach(tLine).State = EntityState.Modified;
+                        await _context.SaveChangesAsync();
                     }
                 }
                 // save real time data to db
-                await _context.SaveChangesAsync();
                 return Unit.Value;
             }
         }
