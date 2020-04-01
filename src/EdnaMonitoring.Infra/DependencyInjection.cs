@@ -1,4 +1,5 @@
-﻿using EdnaMonitoring.App.Data;
+﻿using EdnaMonitoring.App;
+using EdnaMonitoring.App.Data;
 using EdnaMonitoring.App.Security;
 using EdnaMonitoring.Domain.Entities;
 using EdnaMonitoring.Infra.Email;
@@ -69,6 +70,9 @@ namespace EdnaMonitoring.Infra
             configuration.Bind("IdentityInit", identityInit);
             services.AddSingleton(identityInit);
 
+            // add app status as a singleton service
+            AppStatus appStatus = new AppStatus();
+            services.AddSingleton(appStatus);
 
             return services;
         }

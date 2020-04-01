@@ -17,10 +17,12 @@ namespace EdnaMonitoring.App.TransLines.Commands.UpdateActiveTransLinesData
         public class UpdateActiveTransLinesDataCommandHandler : IRequestHandler<UpdateActiveTransLinesDataCommand, Unit>
         {
             private readonly AppIdentityDbContext _context;
+            private readonly AppStatus _appStatus;
 
-            public UpdateActiveTransLinesDataCommandHandler(AppIdentityDbContext context)
+            public UpdateActiveTransLinesDataCommandHandler(AppIdentityDbContext context, AppStatus appStatus)
             {
                 _context = context;
+                _appStatus = appStatus;
             }
 
             public async Task<Unit> Handle(UpdateActiveTransLinesDataCommand request, CancellationToken cancellationToken)
@@ -38,7 +40,7 @@ namespace EdnaMonitoring.App.TransLines.Commands.UpdateActiveTransLinesData
                         await _context.SaveChangesAsync();
                     }
                 }
-                // save real time data to db
+                _appStatus.LastTransLinesUpdated = DateTime.Now;
                 return Unit.Value;
             }
         }

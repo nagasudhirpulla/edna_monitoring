@@ -89,7 +89,8 @@
     <label><input type="checkbox" onchange="onAlertToggle()" id="showAlertChkBx"> Alert</label>  
     <label><input type="checkbox" onchange="onDangerToggle()" id="showDangerChkBx"> Danger</label>  
     <label><input type="checkbox" onchange="onValidToggle()" id="showValidChkBx"> Valid</label> | 
-    <input type="submit" class="btn btn-sm btn-info" value="Update ICTs Data" />
+    <input type="submit" class="btn btn-sm btn-info" value="Update ICTs Data" /> | 
+    <label>Last updated - <b>@(Model.LastUpdated.ToString("dd-MMM-yyyy HH:mm"))</b></label>
 </form>
 <table class="display table table-bordered table-hover table-responsive-md" id="meas_table">
     <thead>

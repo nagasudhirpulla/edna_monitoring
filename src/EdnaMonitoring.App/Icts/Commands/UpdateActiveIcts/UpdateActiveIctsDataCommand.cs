@@ -17,10 +17,12 @@ namespace EdnaMonitoring.App.Icts.Commands.UpdateActiveIcts
         public class UpdateActiveIctsDataCommandHandler : IRequestHandler<UpdateActiveIctsDataCommand, Unit>
         {
             private readonly AppIdentityDbContext _context;
+            private readonly AppStatus _appStatus;
 
-            public UpdateActiveIctsDataCommandHandler(AppIdentityDbContext context)
+            public UpdateActiveIctsDataCommandHandler(AppIdentityDbContext context, AppStatus appStatus)
             {
                 _context = context;
+                _appStatus = appStatus;
             }
 
             public async Task<Unit> Handle(UpdateActiveIctsDataCommand request, CancellationToken cancellationToken)
@@ -38,7 +40,7 @@ namespace EdnaMonitoring.App.Icts.Commands.UpdateActiveIcts
                         await _context.SaveChangesAsync();
                     }
                 }
-                // save real time data to db
+                _appStatus.LastIctsUpdated = DateTime.Now;
                 return Unit.Value;
             }
         }
