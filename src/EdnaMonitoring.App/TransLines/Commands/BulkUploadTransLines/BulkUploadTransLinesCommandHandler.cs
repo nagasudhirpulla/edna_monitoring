@@ -29,9 +29,10 @@ namespace EdnaMonitoring.App.Icts.Commands.BulkUploadTransLines
                 List<string> segments = line.Split(',').Select(e => e.Trim()).ToList();
                 if (segments.Count != 4) { continue; }
                 string name = segments[0];
-                string EdnaId = segments[1];
-                int voltLevel = int.Parse(segments[2]);
-                _context.TransLines.Add(new TransLine() { Name = name, EdnaId = EdnaId, Voltage = voltLevel });
+                string ssName = segments[1];
+                string EdnaId = segments[2];
+                int voltLevel = int.Parse(segments[3]);
+                _context.TransLines.Add(new TransLine() { Name = name, Substation = ssName, EdnaId = EdnaId, Voltage = voltLevel });
             }
             // save real time data to db
             await _context.SaveChangesAsync();

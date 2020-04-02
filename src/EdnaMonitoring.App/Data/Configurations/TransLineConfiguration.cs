@@ -8,6 +8,9 @@ namespace EdnaMonitoring.App.Data.Configurations
         public override void Configure(EntityTypeBuilder<TransLine> builder)
         {
             base.Configure(builder);
+            builder
+               .HasIndex(tl => new { tl.Name, tl.Substation })
+               .IsUnique();
         }
     }
 }

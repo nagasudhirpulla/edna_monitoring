@@ -17,6 +17,9 @@
                 @Html.DisplayNameFor(model => model.TransLine[0].Voltage)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].Substation)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.TransLine[0].Name)
             </th>
             <th>
@@ -52,6 +55,9 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Voltage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Substation)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
@@ -92,6 +98,9 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.TransLine[0].Voltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransLine[0].Substation)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.TransLine[0].Name)
