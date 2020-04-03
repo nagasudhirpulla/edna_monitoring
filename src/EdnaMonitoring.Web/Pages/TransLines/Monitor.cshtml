@@ -3,7 +3,7 @@
 @using EdnaMonitoring.Domain.Entities
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Monitor Lines";
     bool IsValReasonable(TransLine transLine)
     {
         double? val = transLine.RealValue; int voltLevel = transLine.Voltage;
@@ -95,8 +95,8 @@
 <table class="display table table-bordered table-hover table-responsive-md" id="meas_table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TransLine[0].Name)
+            <th style="min-width:20em">
+                Line Name
             </th>
             <th>
                 Substation
@@ -153,10 +153,10 @@
                     @($"{item.Voltage}")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RealValue)
+                    @(item.RealValue.HasValue ? $"{Convert.ToInt32(item.RealValue.Value)}" : "")
                 </td>
                 <td>
-                    @(item.RealValue.HasValue ? $"{Math.Abs(item.RealValue.Value)}" : "")
+                    @(item.RealValue.HasValue ? $"{Convert.ToInt32(Math.Abs(item.RealValue.Value))}" : "")
                 </td>
                 <td>
                     @(IsValReasonable(item) ? "Yes" : "No")
@@ -191,7 +191,7 @@
     <tfoot>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TransLine[0].Name)
+                Line Name
             </th>
             <th>
                 Substation
@@ -303,7 +303,7 @@
                 "lengthMenu": [[10, 20, 50, 100, -1], [10, 20, 50, 100, "All"]],
                 "pageLength": 50,
                 dom: 'Bfrtip',
-                "order": [[0, "asc"]],
+                "order": [[3, "desc"]],
                 buttons: ['pageLength', 'copy', 'csv', 'excel', 'print']
             });
             var r = $('#meas_table tfoot tr');

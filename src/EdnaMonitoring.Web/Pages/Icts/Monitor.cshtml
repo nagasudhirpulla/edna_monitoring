@@ -3,7 +3,7 @@
 @using EdnaMonitoring.Domain.Entities
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Monitor ICTs";
     bool IsValReasonable(Ict ict)
     {
         double? val = ict.RealValue; int hvLevel = ict.HVoltage; int lvLevel = ict.LVoltage;
@@ -83,20 +83,20 @@
 }
 
 <form method="post">
-    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show400ChkBx"> 400/220 kV</label>  
-    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show765ChkBx"> 765/400 kV</label>  
-    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show220ChkBx"> 220/132 kV</label>  
-    <label><input type="checkbox" onchange="onAlertToggle()" id="showAlertChkBx"> Alert</label>  
-    <label><input type="checkbox" onchange="onDangerToggle()" id="showDangerChkBx"> Danger</label>  
-    <label><input type="checkbox" onchange="onValidToggle()" id="showValidChkBx"> Valid</label> | 
-    <input type="submit" class="btn btn-sm btn-info" value="Update ICTs Data" /> | 
+    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show400ChkBx"> 400/220 kV</label>
+    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show765ChkBx"> 765/400 kV</label>
+    <label><input type="checkbox" onchange="onDisplayVoltLevelsChanges()" id="show220ChkBx"> 220/132 kV</label>
+    <label><input type="checkbox" onchange="onAlertToggle()" id="showAlertChkBx"> Alert</label>
+    <label><input type="checkbox" onchange="onDangerToggle()" id="showDangerChkBx"> Danger</label>
+    <label><input type="checkbox" onchange="onValidToggle()" id="showValidChkBx"> Valid</label> |
+    <input type="submit" class="btn btn-sm btn-info" value="Update ICTs Data" /> |
     <label>Last updated - <b>@(Model.LastUpdated.ToString("dd-MMM-yyyy HH:mm"))</b></label>
 </form>
 <table class="display table table-bordered table-hover table-responsive-md" id="meas_table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Ict[0].Name)
+            <th style="min-width:20em">
+                ICT Name
             </th>
             <th class="voltCol">
                 Voltage
@@ -147,10 +147,10 @@
                     @($"{item.HVoltage}/{item.LVoltage}")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RealValue)
+                    @(item.RealValue.HasValue ? $"{Convert.ToInt32(item.RealValue.Value)}" : "")
                 </td>
                 <td>
-                    @(item.RealValue.HasValue ? $"{Math.Abs(item.RealValue.Value)}" : "")
+                    @(item.RealValue.HasValue ? $"{Convert.ToInt32(Math.Abs(item.RealValue.Value))}" : "")
                 </td>
                 <td>
                     @(IsValReasonable(item) ? "Yes" : "No")
@@ -185,7 +185,7 @@
     <tfoot>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Ict[0].Name)
+                ICT Name
             </th>
             <th class="voltCol">
                 Voltage
@@ -294,7 +294,7 @@
                 "lengthMenu": [[10, 20, 50, 100, -1], [10, 20, 50, 100, "All"]],
                 "pageLength": 50,
                 dom: 'Bfrtip',
-                "order": [[0, "asc"]],
+                "order": [[3, "desc"]],
                 buttons: ['pageLength', 'copy', 'csv', 'excel', 'print']
             });
             var r = $('#meas_table tfoot tr');
