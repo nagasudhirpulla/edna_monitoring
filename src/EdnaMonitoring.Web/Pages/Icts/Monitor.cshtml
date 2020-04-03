@@ -98,14 +98,14 @@
             <th style="min-width:20em">
                 ICT Name
             </th>
-            <th class="voltCol">
-                Voltage
-            </th>
             <th>
                 Flow
             </th>
             <th>
                 Absolute Flow
+            </th>
+            <th class="voltCol">
+                Voltage
             </th>
             <th class="reasCol">
                 Reasonable?
@@ -144,13 +144,13 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @($"{item.HVoltage}/{item.LVoltage}")
-                </td>
-                <td>
                     @(item.RealValue.HasValue ? $"{Convert.ToInt32(item.RealValue.Value)}" : "")
                 </td>
                 <td>
                     @(item.RealValue.HasValue ? $"{Convert.ToInt32(Math.Abs(item.RealValue.Value))}" : "")
+                </td>
+                <td>
+                    @($"{item.HVoltage}/{item.LVoltage}")
                 </td>
                 <td>
                     @(IsValReasonable(item) ? "Yes" : "No")
@@ -187,14 +187,14 @@
             <th>
                 ICT Name
             </th>
-            <th class="voltCol">
-                Voltage
-            </th>
             <th>
                 Flow
             </th>
             <th>
                 Absolute Flow
+            </th>
+            <th class="voltCol">
+                Voltage
             </th>
             <th class="reasCol">
                 Reasonable?
@@ -294,7 +294,7 @@
                 "lengthMenu": [[10, 20, 50, 100, -1], [10, 20, 50, 100, "All"]],
                 "pageLength": 50,
                 dom: 'Bfrtip',
-                "order": [[3, "desc"]],
+                "order": [[2, "desc"]],
                 buttons: ['pageLength', 'copy', 'csv', 'excel', 'print']
             });
             var r = $('#meas_table tfoot tr');

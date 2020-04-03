@@ -99,13 +99,13 @@
                 Line Name
             </th>
             <th>
+                Flow
+            </th>
+            <th>
                 Substation
             </th>
             <th class="voltCol">
                 Voltage
-            </th>
-            <th>
-                Flow
             </th>
             <th>
                 Absolute Flow
@@ -147,13 +147,13 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
+                    @(item.RealValue.HasValue ? $"{Convert.ToInt32(item.RealValue.Value)}" : "")
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Substation)
                 </td>
                 <td>
                     @($"{item.Voltage}")
-                </td>
-                <td>
-                    @(item.RealValue.HasValue ? $"{Convert.ToInt32(item.RealValue.Value)}" : "")
                 </td>
                 <td>
                     @(item.RealValue.HasValue ? $"{Convert.ToInt32(Math.Abs(item.RealValue.Value))}" : "")
@@ -194,13 +194,13 @@
                 Line Name
             </th>
             <th>
+                Flow
+            </th>
+            <th>
                 Substation
             </th>
             <th class="voltCol">
                 Voltage
-            </th>
-            <th>
-                Flow
             </th>
             <th>
                 Absolute Flow
@@ -303,7 +303,7 @@
                 "lengthMenu": [[10, 20, 50, 100, -1], [10, 20, 50, 100, "All"]],
                 "pageLength": 50,
                 dom: 'Bfrtip',
-                "order": [[3, "desc"]],
+                "order": [[1, "desc"]],
                 buttons: ['pageLength', 'copy', 'csv', 'excel', 'print']
             });
             var r = $('#meas_table tfoot tr');
